@@ -4,22 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do-List Odin Prject</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <main>
         <div id="navbar">
             <div id="logo">
-                <img src="" alt="logo">
-                <h2>App Name</h2>
+                <img id="app-logo" src="" alt="logo">
+                <h2 id="app-name">App Name</h2>
             </div>
-            <ul>
+
+            <ul id="nav-options">
                <li>All</li>
                <li>Projects</li>
                <li>Priority</li> 
-               <li>Trash</li>
+               <li>Discarded</li>
             </ul>
+
+            <div id="add-project">
+                <button id="add-project-btn">+</button>
+            </div>
         </div>
-        <div id="task-list"></div>
+
+        <div id="task-list">
+            <div id="header">
+                <button id="add-task-btn">+</button>
+            </div>
+
+            <div id="task-display">
+                <p>Here go the tasks</p>
+            </div>
+        </div>
     </main>
 </body>
 </html>
