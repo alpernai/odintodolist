@@ -19,18 +19,21 @@
     display: flex;
     flex-direction: column;
     padding: 1.25em 0.5em 0.5em 0.5em;
+    z-index: 1;
 
-    background-color: #fffaf0;  ;
+    background-color: #fffaf0;
     font-size: 1.25em;
+    box-shadow: 0 2px 13px rgba(0, 0, 0, 0.2); 
+
   }
 
   #projects-header {
     align-self: center;
     text-align: center;
-    margin-bottom: 0.25em; /* Adds space below the text */
-    display: inline-block; /* Ensures it doesn’t span the full width */
-    position: relative; /* Needed for the pseudo-element positioning */
-    padding-bottom: 0.25em; /* Adds space between the text and the border */
+    margin-bottom: 0.25em; 
+    display: inline-block;
+    position: relative; 
+    padding-bottom: 0.25em;
   }
   
   #projects-header::after {
@@ -49,58 +52,53 @@
   }
 
   ul li {
-    margin: 0.5em;
-    padding: 0.5em; /* Adds padding to create a "box" around the text */
-    cursor: pointer; /* Changes the cursor to indicate interactivity */
+    margin: 0.30em;
+    padding: 0.30em;
+    cursor: pointer; 
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover and click effects */
+    transition: background-color 0.3s, color 0.3s; 
   }
 
   ul li:hover {
-    background-color: hsl(46, 39%, 80%); /* Highlight box color on hover */
+    background-color: hsl(46, 39%, 80%); 
   }
   
   ul li:active {
-    background-color: hsl(46, 39%, 65%); /* Darker highlight on click */
-    color: white; /* Text color changes on click */
+    background-color: hsl(46, 39%, 65%); 
   }
 
   ul {
     list-style-type: none; 
   }
 
-  li{
-    margin: 0.5em;
-  }
-
   #task-list-container {
-    padding: 0.5em;
+    padding: 0em 1em 0em 1em;
     background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
   }
 
   .project-card {
-    width: 100%; /* Spans the full width of the container */
+    width: 100%; 
     padding: 1em;
-    margin: 1em 0; /* Adds spacing between project cards */
+    margin: 1em 0; 
     border-radius: 5px;
     background-color: white;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    z-index: 1;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); 
   }
   
   .project-header {
     display: flex;
-    justify-content: space-between; /* Pushes title to the left and button to the right */
-    align-items: center; /* Aligns elements vertically */
-    margin-bottom: 1em; /* Space between header and tasks */
-    border-bottom: 1px solid hsl(46, 39%, 50%); /* Optional: Adds a bottom border for the header */
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 1em; 
+    border-bottom: 1px solid hsl(46, 39%, 50%); 
     padding-bottom: 0.5em;
   }
   
   .project-title {
     font-size: 1.25em;
     font-weight: bold;
-    color: hsl(46, 39%, 23%);
+    cursor: pointer; 
   }
   
   .add-task-button {
@@ -113,47 +111,46 @@
   }
   
   .add-task-button:hover {
-    background-color: white;
+    background-color: rgba(225, 224, 216, 0.787);
   }
   
   .project-tasks-container {
-    list-style: none; /* Removes default list styles */
     padding: 0;
     margin: 0;
   }
   
   .task {
     display: flex;
-    justify-content: space-between; /* Ensures left and right sides are at polar opposites */
-    align-items: center; /* Vertically centers the content */
-    padding: 0.5em; /* Adds padding inside the task */
-    margin: 0.5em 0; /* Spacing between tasks */
-    border-radius: 5px; /* Slight rounding for task container */
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0.5em; 
+    margin: 0.5em 0; 
+    border-radius: 5px; 
     background-color: white;
   }
   
   .task-left {
     display: flex;
-    align-items: center; /* Centers checkbox and label vertically */
-    gap: 1em; /* Space bwetween the checkbox and label */
+    align-items: center; 
+    gap: 1em; 
   }
   
   .task-right {
     display: flex;
-    align-items: center; /* Centers the button vertically */
-    margin-left: auto; /* Pushes the button fully to the right */
+    align-items: center; 
+    margin-left: auto; 
   }
   
   .edit-task-button {
-    background: none; /* Remove background */
-    border: none; /* Remove border */
-    color: inherit; /* Inherit the text color from the surrounding text */
-    font-size: 1em; /* Ensure the icon's size is consistent with other text */
-    cursor: pointer; /* Keeps the pointer cursor for interactivity */
-    transition: color 0.3s; /* Smooth color transition on hover */
+    background: none; 
+    border: none; 
+    color: inherit; 
+    font-size: 1em; 
+    cursor: pointer; 
+    transition: color 0.3s;
   }
   
   .edit-task-button i {
-    font-size: 1em; /* Adjust icon size as needed */
-    vertical-align: middle; /* Ensures the icon is vertically aligned with the text */
+    font-size: 1em; 
+    vertical-align: middle; 
   }
