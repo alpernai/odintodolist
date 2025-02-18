@@ -8,13 +8,26 @@
     <script type="module" src="bundle.js"></script>
 </head>
 <body>
+    
+    <div id="add-project-modal" class="modal">
+        <div class="modal-content">
+            <form id="project-form">
+                <input type="text" id="project-title-input" placeholder="Enter project title" required>
+                <div>
+                    <button type="submit" id="submit-project">Add</button>
+                    <button id="cancel-submit">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <main>
         <div id="navbar">
             <h2 id="projects-header">Projects</h2>  
             <ul id="projects-list">
                <li>All</li>
                <li>Priority</i></li>
-               <li>Add Project</li>
+               <li id="add-project">Add Project</li>
             </ul>
         </div>
 
@@ -41,7 +54,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
+
+
+
 </body>
 </html>
