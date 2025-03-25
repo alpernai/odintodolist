@@ -4,12 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js" defer></script>
+    <script type="module" src="main.js" defer></script>
     <title>Document</title>
 </head>
 <body>
+    <div id="app">
+        <div id="navbar">
+            <h1 id="projects-header">Dew It</h1>  
+            <ul id="projects-list">
+               <li>All</li>
+               <li>Priority</i></li>
+               <li id="add-project">Add project</li>
+               <div id="project-divider"></div>
+               <li>Some project</li>
+            </ul>
+        </div>
 
-    <!-- <div id="add-project-modal" class="modal">
+        <div id="main">
+            <div class="project-card">
+                <div class="project-header">
+                    <h2 class="project-title">Project title</h2>
+                    <button class="add-task-button">+</button>
+                </div>
+                <div class="project-tasks">
+                    <div class="task-card">
+                        <div class="task-left-section">
+                            <input type="checkbox" class="mark-complete">
+                            <label for="mark-complete" class="task-description">
+                                <input type="text" class="task-input" placeholder="Task description">
+                            </label>
+                        </div>
+                        <div class="task-right-section">
+                            <button class="edit-task-button">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- <div id="add-project-modal" class="modal">
         <form id="project-form">
             <input type="text" id="project-title-input" placeholder="Enter project title" required>
             <div>
@@ -18,49 +51,5 @@
             </div>
         </form>
     </div> -->
-
-    <!-- <div id="add-task-modal" class="modal">
-        <form id="task-form">
-            <input type="text" id="task-description-input" placeholder="Task description" required>
-            <input type="date" id="task-date-input">
-            <input type="checkbox" id="task-priority-input">
-            <label for="task-priority-input" class="priority-label">Priority</label>
-            <div>
-                <button type="submit" id="submit-project">Add</button>
-                <button id="cancel-submit">Cancel</button>
-            </div>
-        </form>
-    </div> -->
-
-    <div id="app">
-        <div id="navbar">
-            <h1 id="projects-header">Projects</h1>  
-            <ul id="projects-list">
-               <li>All</li>
-               <li>Priority</i></li>
-               <li id="add-project">Add Project</li>
-            </ul>
-        </div>
-        <div id="task-list-container">
-            <div class="project-card">
-                <div class="project-header">
-                    <h2 class="project-title">Project title</h2>
-                    <button class="add-task-button">Add task</button>
-                </div>
-                <div class="project-tasks">
-                    <div class="task-card">
-                        <input type="checkbox" class="mark-complete">
-                        <label for="mark-complete" class="task-description">This is a task</label>
-                        <button class="edit-task-button">Edit</button>
-                        <button class="delete-task-button">Delete</button>
-                        <div class="task-border"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
 </body>
 </html>
