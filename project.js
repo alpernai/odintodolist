@@ -26,10 +26,12 @@ const manageProjects = (() => {
     const addProject = (title) => {
         const project = new Project(title);
         projects.push(project);
+        return project;
     };
 
     const deleteProject = (id) => {
         projects = projects.filter(project => project.id !== id);
+        return projects;
     };
 
     const getProjects = () => projects;

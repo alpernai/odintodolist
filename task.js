@@ -5,14 +5,20 @@ const manageTasks = (() => {
         lastTaskId++;
         return lastTaskId;
     };
+
     class Task {
-        constructor(name, description, dueDate, isPending = true, priority = false) {
-            this.id = generateTaskId();
-            this.name = name;
+        constructor(
+                    description, 
+                    dueDate = new Date().toISOString().split('T')[0], 
+                    isPending = true, 
+                    priority = false,
+                    id = generateTaskId()
+                ){
             this.description = description;
             this.dueDate = dueDate;
             this.isPending = isPending;
             this.priority = priority;
+            this.id = id;
         }
 
         togglePriority(){
@@ -24,8 +30,8 @@ const manageTasks = (() => {
         }
     }
 
-    const createTask = (name, description, dueDate, isPending, priority) => {
-        return new Task (name, description, dueDate, isPending, priority)
+    const createTask = (description, dueDate, isPending, priority, id) => {
+        return new Task (description, dueDate, isPending, priority, id)
     };
 
     return { createTask };
