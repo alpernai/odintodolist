@@ -52,19 +52,30 @@
             </form>
         </div>
 
-        <!-- <div id="add-task-modal" class="modal">
+        <div id="add-task-modal" class="modal">
             <form id="task-form">
-                <input type="text" id="task-description-input" placeholder="Task description" required>
-                <input type="date" id="task-due-date">
-                <label for="task-due-date" id="due-date-label">Due date:</label>
-                <input type="checkbox" id="flag-priority-checkbox">
-                <label for="flag-priority" id="flag-priority-label">Priority:</label>
-                <div>
-                    <button type="submit" id="submit-task">Add</button>
-                    <button type="submit" id="cancel-submit-task">Cancel</button>
+              <input type="text" id="task-description-input" placeholder="Task description" required>
+              
+              <div class="task-options-row">
+                <div class="task-option-group">
+                  <label for="task-due-date">Due</label>
+                  <input type="date" id="task-due-date">
                 </div>
+                
+                <div class="task-option-group">
+                  <label for="task-priority">Priority</label>
+                  <select id="task-priority">
+                    <option value="false">None</option>
+                    <option value="true">Priority</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="modal-buttons">
+                <button type="submit" id="submit-task">Add</button>
+                <button type="button" id="cancel-submit-task">Cancel</button>
+              </div>
             </form>
-        </div> -->
-
+          </div>
 </body>
 </html>

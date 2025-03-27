@@ -67,7 +67,7 @@ const manageDOM = (() => {
 
         // Mouse click
         const handleOutsideClick = (clickEvent) => {
-            if (clickEvent.target === document.getElementById('add-project-modal')) {
+            if (clickEvent.target === addProjectModal) {
                 displayProjectModal(false);
             }
         };

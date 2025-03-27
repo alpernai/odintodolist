@@ -66,6 +66,8 @@
     background-color: white;
 }
 
+/* ---------------------------- Project Card -------------------------  */
+
     .project-card {
         width: 100%; 
         padding: 1em;
@@ -103,6 +105,8 @@
         .add-task-button:hover {
             background-color: rgba(225, 224, 216, 0.787);
         }
+
+/* ---------------------------- Task Card -------------------------  */
 
     .task-card {
         display: flex;
@@ -193,10 +197,9 @@
                 background-color: rgba(225, 224, 216, 0.787);
             }
 
-/* ---------------------------- Project Modal -------------------------  */
-
+/* ---------------------------- Modals ------------------------- */
 .modal {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;    
@@ -207,56 +210,71 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.25);
   }
-
-  .modal-content {
-    width: 50%;
-    background-color: white;
-    padding: 1em;
-    border-radius: 5px;
+  
+  #project-form,
+  #task-form {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  #project-form {
-    display: flex;
-    flex-direction: column; 
-    gap: 1em; 
-    width: 40%; 
-    max-width: 500px; 
-    min-width: 300px; 
+    gap: 1.25em;
+    width: 40%;
     background-color: white;
     padding: 2em;
-    border-radius: 5px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    max-height: 40vh; 
-    overflow-y: auto; 
+    border-radius: 0.5em;
+    box-shadow: 0 0.5em 1.2em rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
   }
-
-  #project-title-input {
+  
+  #project-form {
+    max-height: 40vh;
+  }
+  
+  #task-form {
+    max-height: 60vh; 
+  }
+  
+  #project-title-input,
+  #task-description-input,
+  #task-due-date,
+  #task-priority {
     width: 100%;
-    padding: 0.8em;
-    margin: 0.25em 0;
-    border-radius: 5px;
+    padding: 0.75em;
+    border-radius: 0.5em;
     border: 1px solid #ccc;
     font-size: 1em;
-    box-sizing: border-box;
     background-color: #f9f9f9;
   }
-
+  
+  .task-options-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+  }
+  
+  .task-option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  
+  #task-priority {
+    cursor: pointer;
+  }
+  
+  label {
+    align-self: center;
+  }
+  
+  .modal-buttons,
   #project-form div {
     display: flex;
-    gap: 1em;  
-    justify-content: space-between;  
+    gap: 1em;
+    justify-content: space-between;
   }
-
-  input:focus {
-    outline: none;
-    border-color: hsl(46, 39%, 23%);
-    box-shadow: 0 0 1px 0.5px hsl(46, 39%, 23%);
-  }
-
-  #submit-project, #cancel-submit-project {
+  
+  #submit-project,
+  #cancel-submit-project,
+  #submit-task,
+  #cancel-submit-task {
     width: 50%;
     padding: 0.8em;
     background-color: hsl(46, 39%, 80%);
@@ -265,16 +283,18 @@
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 0;
   }
-
-  button:hover {
+  
+  button:hover,
+  #task-priority:hover,
+  #task-due-date:hover {
     background-color: hsl(46, 39%, 65%);
   }
-
-  button:focus {
+  
+  button:focus,
+  input:focus,
+  select:focus {
     outline: none;
-    box-shadow: 0 0 5px 2px hsl(46, 39%, 23%);
+    box-shadow: 0 0 0 2px hsl(46, 39%, 23%);
   }
-
-/* ---------------------------- Task Modal -------------------------  */
+  
