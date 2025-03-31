@@ -23,7 +23,7 @@
     flex-direction: column;
     padding: 1.25em 0.5em 0.5em 0.5em;
     background-color: #fffaf0;
-    font-size: 1.25em;
+    font-size: 1.3em;
     z-index: 1;
     box-shadow: 0 2px 13px rgba(0, 0, 0, 0.2); 
 }
@@ -32,6 +32,11 @@
         align-self: center;
         text-align: center;
         margin-bottom: 0.50em;
+    }
+
+    #project-divider {
+        width: 100%;
+        border-bottom: 1px solid hsl(46, 39%, 50%); 
     }
 
     ul {
@@ -47,16 +52,27 @@
     }
 
     ul li:hover {
-        background-color: hsl(46, 39%, 80%); 
+        background-color: hsl(45, 40%, 80%); 
     }
 
     ul li:active {
-        background-color: hsl(46, 39%, 65%); 
+        background-color: hsl(45, 40%, 70%); 
     }
 
-    #project-divider {
-        width: 100%;
-        border-bottom: 1px solid hsl(46, 39%, 50%); 
+    #add-project {
+        font-weight: bolder;
+    }
+
+    #projects-list li {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    #projects-list li.active {
+        background-color: hsl(46, 39%, 85%);
+        border-left: 3px solid hsl(46, 39%, 50%);
+        font-weight: bold;
+
     }
 
 /* ---------------------------- Main Section -------------------------  */
@@ -93,7 +109,7 @@
             cursor: pointer; 
         }
 
-        .add-task-button {
+        .delete-project-button {
             padding: 0.5em 0.75em;
             background-color: white;
             border: none;
@@ -102,7 +118,7 @@
             transition: background-color 0.3s;
         }
 
-        .add-task-button:hover {
+        .delete-project-button:hover {
             background-color: rgba(225, 224, 216, 0.787);
         }
 
@@ -199,7 +215,7 @@
 
 /* ---------------------------- Modals ------------------------- */
 .modal {
-    display: flex;
+    display: none;
     position: fixed;
     top: 0;
     left: 0;    
@@ -225,7 +241,7 @@
   }
   
   #project-form {
-    max-height: 40vh;
+    max-height: 50vh;
   }
   
   #task-form {
@@ -264,7 +280,6 @@
     align-self: center;
   }
   
-  .modal-buttons,
   #project-form div {
     display: flex;
     gap: 1em;
@@ -276,25 +291,28 @@
   #submit-task,
   #cancel-submit-task {
     width: 50%;
-    padding: 0.8em;
+    padding: 0.75em;
     background-color: hsl(46, 39%, 80%);
     border: none;
-    border-radius: 5px;
+    border-radius: 0.5em;
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
+
   button:hover,
-  #task-priority:hover,
-  #task-due-date:hover {
-    background-color: hsl(46, 39%, 65%);
+  #submit-project:hover,
+  #cancel-submit-project:hover {
+    background-color: hsl(40, 40%, 60%);
   }
   
   button:focus,
   input:focus,
   select:focus {
     outline: none;
-    box-shadow: 0 0 0 2px hsl(46, 39%, 23%);
+    box-shadow: 0 0 0 2px hsl(40, 40%, 30%);
   }
-  
+
+
+
+

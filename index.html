@@ -4,55 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/8145d305bd.js" crossorigin="anonymous"></script>
     <script type="module" src="main.js" defer></script>
     <title>Document</title>
 </head>
 <body>
     <div id="app">
         <div id="navbar">
-            <h1 id="projects-header">Dew It</h1>  
-            <ul id="projects-list">
-               <li>All</li>
-               <li>Priority</i></li>
+            <h1 id="projects-header">Do Stuff</h1>  
+            <ul id="add-project-container">
                <li id="add-project">Add project</li>
-               <div id="project-divider"></div>
-               <li>Some project</li>
             </ul>
+            <div id="project-divider"></div>
+            <ul id="projects-list">
+                <!-- <li>Some project</li> -->
+             </ul>
         </div>
 
         <div id="main">
-            <div class="project-card">
-                <div class="project-header">
-                    <h2 class="project-title">Project title</h2>
-                    <button class="add-task-button">+</button>
-                </div>
-                <div class="project-tasks">
-                    <div class="task-card">
-                        <div class="task-left-section">
-                            <input type="checkbox" class="mark-complete">
-                            <label for="mark-complete" class="task-description">
-                                <input type="text" class="task-input" placeholder="Task description">
-                            </label>
-                        </div>
-                        <div class="task-right-section">
-                            <button class="edit-task-button">-</button>
+                <!-- <div class="project-card">
+                    <div class="project-header">
+                        <h2 class="project-title">Project title</h2>
+                        <button class="delete--button">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="project-tasks">
+                        <div class="task-card">
+                            <div class="task-left-section">
+                                <input type="checkbox" class="mark-complete">
+                                <label for="mark-complete" class="task-description">
+                                    <input type="text" class="task-input" placeholder="Task description">
+                                </label>
+                            </div>
+                            <div class="task-right-section">
+                                <button class="edit-task-button">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> -->
         </div>
 
         <div id="add-project-modal" class="modal">
             <form id="project-form">
                 <input type="text" id="project-title-input" placeholder="Enter project title" required>
-                <div>
+                <div class="modal-button-container">
                     <button type="submit" id="submit-project">Add</button>
                     <button type="submit" id="cancel-submit-project">Cancel</button>
                 </div>
             </form>
         </div>
 
-        <div id="add-task-modal" class="modal">
+        <!-- <div id="add-task-modal" class="modal">
             <form id="task-form">
               <input type="text" id="task-description-input" placeholder="Task description" required>
               
@@ -76,6 +81,6 @@
                 <button type="button" id="cancel-submit-task">Cancel</button>
               </div>
             </form>
-          </div>
+          </div> -->
 </body>
 </html>
