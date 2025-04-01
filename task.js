@@ -8,7 +8,7 @@ const manageTasks = (() => {
 
     class Task {
         constructor(
-                    description, 
+                    description = "", 
                     dueDate = new Date().toISOString().split('T')[0], 
                     isPending = true, 
                     priority = false,

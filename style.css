@@ -59,7 +59,7 @@
         background-color: hsl(45, 40%, 70%); 
     }
 
-    #add-project {
+    #add-project, #all-projects {
         font-weight: bolder;
     }
 
@@ -121,6 +121,11 @@
             background-color: rgba(225, 224, 216, 0.787);
         }
 
+        .project-tasks:empty::after {
+            content: "No tasks – start typing below";
+            opacity: 0.5;
+        }
+
 /* ---------------------------- Task Card -------------------------  */
 
     .task-card {
@@ -130,28 +135,27 @@
         padding: 0.25em; 
         border-radius: 0.5em; 
         background-color: white;
+        transition: opacity 0.3s;
     }
 
-        .task-left-section {
-            display: grid;
-            grid-template-columns: auto 1fr; 
-            align-items: center;
-            gap: 0.5em; 
-            font-size: 0.90em;
-            width: 100%; 
+    .task-card.completed {
+        opacity: 0.5;
+    }
 
-        }
+    .task-card.completed .task-input {
+        text-decoration: line-through;
+        color: hsl(46, 39%, 60%);
+    }
 
             .mark-complete {
                 appearance: none; 
-                -webkit-appearance: none;
                 width: 1.2em;
                 height: 1.2em;
-                border: 2px solid hsl(46, 39%, 50%);
+                border: 0.1em solid hsl(46, 39%, 50%);
                 border-radius: 50%; 
                 cursor: pointer;
                 position: relative;
-                transition: background-color 0.3s, border-color 0.3s;
+                transition: all 0.3s;
             }
             
             .mark-complete:checked {
@@ -176,41 +180,32 @@
             .task-input {
                 border: none;
                 background: transparent;
-                font-size: inherit;
                 width: 95%; 
                 padding: 0.3em 0.5em;
                 border-radius: 0.5em;
-                transition: background-color 0.3s;
+                transition: all 0.2s;
             }
-            
+
+            .task-card:last-child .task-input::placeholder {
+                color: hsl(46, 39%, 50%);
+                font-style: italic;
+            }
+                        
             .task-input:focus {
-                outline: none;
                 background-color: rgba(225, 224, 216, 0.3);
                 box-shadow: 0 0 0 1px hsl(46, 39%, 80%);
+                border-bottom: 0.5px solid hsl(46, 39%, 50%);
+                outline: none;
             }
             
             .task-input:hover {
                 background-color: rgba(225, 224, 216, 0.2);
             }
 
-        .task-right-section {
-            display: flex;
-            align-items: center; 
-            margin-left: auto; 
-        }
-
-            .edit-task-button {
-                padding: 0.25em 0.50em;
-                background-color: white;
-                border: none;
-                border-radius: 1em;
-                cursor: pointer;
-                transition: background-color 0.3s;
-            }
-
-            .edit-task-button:hover {
-                background-color: rgba(225, 224, 216, 0.787);
-            }
+            .task-input.editable {
+                background: rgba(225, 224, 216, 0.3);
+                border-bottom: 1px solid hsl(46, 39%, 50%);
+              }
 
 /* ---------------------------- Modals ------------------------- */
 .modal {

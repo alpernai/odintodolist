@@ -7,45 +7,17 @@ const manageDOM = (() => {
     // -----------------------------------------------------------------
 
     // Navbar section 
-    const navbar = document.getElementById('navbar');
-    const navbarHeader = document.getElementById('projects-header');
     const addProjectTab = document.getElementById('add-project');
     const projectsList = document.getElementById('projects-list');
 
     // Main section 
     const main = document.getElementById('main');
 
-    // Project card 
-    const projectCard = document.getElementsByClassName('project-card');
-    const projectHeader = document.getElementsByClassName('project-header');
-    const projectTitle = document.getElementsByClassName('project-title');
-    const deleteProjectButton = document.getElementsByClassName('delete-project-button');
-    const projectTasks = document.getElementsByClassName('project-tasks');
-
-    // Task card
-    const taskCard = document.getElementsByClassName('task-card');
-    const taskLeftSection = document.getElementsByClassName('task-left-section');
-    const markCompleteButton = document.getElementsByClassName('mark-complete');
-    const taskDescription = document.getElementsByClassName('task-description');
-    const taskInput = document.getElementsByClassName('task-input');
-    const taskRightSection = document.getElementsByClassName('task-right-section');
-    const editTaskButton = document.getElementsByClassName('edit-task-button');
-
     // Project Modal 
     const addProjectModal = document.getElementById('add-project-modal');
     const projectForm = document.getElementById('project-form');
     const projectTitleInput = document.getElementById('project-title-input');
-    const submitProject = document.getElementById('submit-project');
     const cancelSubmitProjectButton = document.getElementById('cancel-submit-project'); 
-
-    // Task Modal 
-    const addTaskModal = document.getElementById('add-task-modal');
-    const taskForm = document.getElementById('task-form');
-    const taskDescriptionInput = document.getElementById('task-description-input');
-    const taskDateInput = document.getElementById('task-date-input');
-    const taskPriorityInput = document.getElementById('task-priority-input');
-    const submitTask = document.getElementById('submit-task');
-    const cancelTask = document.getElementById('cancel-task');   
 
     // -----------------------------------------------------------------
     // ---------------------- Project methods --------------------------
@@ -110,7 +82,7 @@ const manageDOM = (() => {
         const projects = manageProjects.getProjects();
         main.innerHTML = '';
     
-        // Search for the project by ID
+        // Search for the project by ID - future: if notAll do this. if all, create a card for each project.
         const currentProject = projects.find(project => project.id === projectID);
         
         // Handle not found 
@@ -123,8 +95,9 @@ const manageDOM = (() => {
         const newProjectCard = createProjectHTML(currentProject.title);
         newProjectCard.dataset.projectId = currentProject.id; 
         main.appendChild(newProjectCard);
-        
-        // Task rendering logic will go here ?
+
+        // Render project tasks
+        renderAllTasks(currentProject); 
     };
 
     const handleDeleteClick = (clickEvent) => {
@@ -151,7 +124,6 @@ const manageDOM = (() => {
             console.warn('Failed to delete project', projectId);
         }
     };
-
 
         // Keyboard helper function
         const handleKeyDown = (keydownEvent) => {
@@ -221,7 +193,7 @@ const manageDOM = (() => {
             // Project tasks
             const projectTasks = document.createElement("div");
             projectTasks.classList.add("project-tasks");
-        
+
             // Append header and tasks to card
             projectCard.appendChild(projectHeader);
             projectCard.appendChild(projectTasks);
@@ -229,14 +201,13 @@ const manageDOM = (() => {
             return projectCard;
         }
         
-
-        // Event delegation setup (single listener)
+        // Listen for clicks on navbar tabs. 
         projectsList.addEventListener('click', handleProjectTabClick);
      
-        // Initialization: display modal when "Add Project" tab is clicked 
+        // Display modal when Add Project tab is clicked.
         addProjectTab.addEventListener('click', displayProjectModal);
 
-        // Add Project when there is input + Enter/Submit Project
+        // Add Project when modal has input + Enter/Submit Project
         projectForm.addEventListener('submit', handleProjectSubmit);
 
 
@@ -244,69 +215,123 @@ const manageDOM = (() => {
     // ------------------------- Task methods --------------------------
     // -----------------------------------------------------------------
 
-    function createTaskCard() {
-        // Create main container div
-        const taskCard = document.createElement("div");
-        taskCard.className = "task-card";
-            
-        // Create left section div
-        const taskLeftSection = document.createElement("div");
-        taskLeftSection.className = "task-left-section";
-            
-        // Create checkbox input
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.className = "mark-complete";
-            
-        // Create label
-        const label = document.createElement("label");
-        label.className = "task-description";
-        label.setAttribute("for", "mark-complete");
-            
-        // Create task input
-        const taskInput = document.createElement("input");
-        taskInput.type = "text";
-        taskInput.className = "task-input";
-        taskInput.placeholder = "Task description";
-            
-        // Append input to label
-        label.appendChild(taskInput);
-            
-        // Append elements to left section
-        taskLeftSection.appendChild(checkbox);
-        taskLeftSection.appendChild(label);
-            
-        // Create right section div
-        const taskRightSection = document.createElement("div");
-        taskRightSection.className = "task-right-section";
-            
-        // Create edit button
-        const editButton = document.createElement("button");
-        editButton.className = "edit-task-button";
-            
-        // Create icon element
-        const icon = document.createElement("i");
-        icon.className = "fa-solid fa-pen-to-square";
-            
-        // Append icon to button
-        editButton.appendChild(icon);
-            
-        // Append button to right section
-        taskRightSection.appendChild(editButton);
-            
-        // Append left and right sections to main container
-        taskCard.appendChild(taskLeftSection);
-        taskCard.appendChild(taskRightSection);
-            
-        return taskCard;
-    }
+    function createTaskCardHTML() {
+        const taskCard = document.createElement('div');
+        taskCard.className = 'task-card';
         
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'mark-complete';
+        
+        const textInput = document.createElement('input');
+        textInput.type = 'text';
+        textInput.className = 'task-input';
+        textInput.placeholder = 'Add task';
+        
+        taskCard.appendChild(checkbox);
+        taskCard.appendChild(textInput);
+        
+        return taskCard;
+    };
+
+    // Add tasks by typing / clicking 'Enter' on input.
+    const handleTaskInput = (keyEvent) => {
+        // Only respond to Enter key
+        if (keyEvent.key !== 'Enter') return;
+        
+        const input = keyEvent.target;
+        const projectTasks = input.closest('.project-tasks');
+        const taskCard = input.closest('.task-card');
+        
+        // Check if this is the last / empty card 
+        if (!taskCard || taskCard !== projectTasks.lastElementChild) return;
+        
+        // Validate input
+        const description = input.value.trim();
+        if (!description) return;
+        
+        // Get current project data
+        const projectCard = projectTasks.closest('.project-card');
+        const projectId = Number(projectCard.dataset.projectId);
+        const currentProject = manageProjects.getProjects()
+            .find(proj => proj.id === projectId);
+        
+        // Create and store task
+        const newTask = manageTasks.createTask(description);
+        currentProject.addTask(newTask);
+        
+        // Update DOM
+        input.value = '';
+        const newTaskCard = createTaskCardHTML();
+        newTaskCard.dataset.taskId = newTask.id;
+        newTaskCard.querySelector('.task-input').value = description;
+        projectTasks.insertBefore(newTaskCard, taskCard);
+        
+        // Focus on new card input
+        input.focus();
+    };
+
+    const renderAllTasks = (project) => {
+        // Get the project card and tasks container
+        const projectCard = document.querySelector(`.project-card[data-project-id="${project.id}"]`);
+        if (!projectCard) return;
+        
+        const tasksContainer = projectCard.querySelector('.project-tasks');
+        tasksContainer.innerHTML = '';
+    
+        // Render existing tasks
+        project.tasks.forEach(task => {
+            const taskCard = createTaskCardHTML();
+            taskCard.dataset.taskId = task.id;
+            
+            const textInput = taskCard.querySelector('.task-input');
+            textInput.value = task.description;
+            
+            const checkbox = taskCard.querySelector('.mark-complete');
+            checkbox.checked = !task.isPending;
+            
+            if (!task.isPending) {
+                taskCard.classList.add('completed');
+            }
+            
+            tasksContainer.appendChild(taskCard);
+        });
+    
+        // Add new/empty card at the end
+        const emptyCard = createTaskCardHTML();
+        tasksContainer.appendChild(emptyCard);
+        emptyCard.querySelector('.task-input').focus();
+    };
+    
+    const initializeTaskHandlers = () => {
+        document.addEventListener('keydown', (e) => {
+            if (e.target.classList.contains('task-input')) {
+                handleTaskInput(e);
+            }
+        });
+    };
+    
+    // Call this when loading the app
+    initializeTaskHandlers();
 
     // -----------------------------------------------------------------
     // ----------------------- Expose methods --------------------------
     // -----------------------------------------------------------------
     return { 
         displayProjectModal,
+        refreshNavbar,
+        handleProjectTabClick,
+        displayProject,
+        handleDeleteClick,
+        handleKeyDown,
+        handleOutsideClick,
+        handleProjectCancel,
+        handleProjectSubmit,
+        createProjectHTML,
+        createTaskCardHTML,
+        handleTaskInput,
+        renderAllTasks,
+        initializeTaskHandlers
     };
 
 })();
