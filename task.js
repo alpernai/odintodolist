@@ -8,12 +8,12 @@ const manageTasks = (() => {
 
     class Task {
         constructor(
-                    description = "", 
-                    dueDate = new Date().toISOString().split('T')[0], 
-                    isPending = true, 
-                    priority = false,
-                    id = generateTaskId()
-                ){
+            description = "", 
+            dueDate = new Date().toISOString().split('T')[0], 
+            isPending = true, 
+            priority = false,
+            id = generateTaskId()
+        ){
             this.description = description;
             this.dueDate = dueDate;
             this.isPending = isPending;
@@ -22,19 +22,22 @@ const manageTasks = (() => {
         }
 
         togglePriority(){
-            this.priority = this.priority ? false : true;
+            this.priority = !this.priority;
         }
 
         toggleComplete() {
-            this.isPending = this.isPending ? false : true;
+            this.isPending = !this.isPending;
         }
     }
 
     const createTask = (description, dueDate, isPending, priority, id) => {
-        return new Task (description, dueDate, isPending, priority, id)
+        return new Task(description, dueDate, isPending, priority, id);
     };
 
-    return { createTask };
+    return { 
+        createTask,
+        Task 
+    };
 })();
 
 export default manageTasks;

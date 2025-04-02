@@ -21,6 +21,8 @@ const manageProjects = (() => {
         deleteTask(taskID) {
             this.tasks = this.tasks.filter(task => task.id !== taskID);
         }
+
+        getTasks = () => this.tasks;
     }
 
     const addProject = (title) => {

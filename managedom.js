@@ -82,10 +82,10 @@ const manageDOM = (() => {
         const projects = manageProjects.getProjects();
         main.innerHTML = '';
     
-        // Search for the project by ID - future: if notAll do this. if all, create a card for each project.
+        // Search for the project by ID - Note for future: if (notAll), do this. Else, create a card for each project.
         const currentProject = projects.find(project => project.id === projectID);
         
-        // Handle not found 
+        // Handle not found
         if (!currentProject) {
             console.warn(`Project ${projectID} not found`);
             return;
@@ -97,14 +97,35 @@ const manageDOM = (() => {
         main.appendChild(newProjectCard);
 
         // Render project tasks
-        renderAllTasks(currentProject); 
+        renderAllTasks(currentProject);
+    };
+
+    const handleShowAllClick = () => {
+        // Clear main area
+        main.innerHTML = '';
+        
+        // Get all projects
+        const projects = manageProjects.getProjects();
+        
+        // Remove active class from all project tabs
+        document.querySelectorAll('#projects-list li').forEach(li => {
+            li.classList.remove('active');
+        });
+        
+        // Render all projects
+        projects.forEach(project => {
+            const projectCard = createProjectHTML(project.title);
+            projectCard.dataset.projectId = project.id;
+            main.appendChild(projectCard);
+            renderAllTasks(project);
+        });
     };
 
     const handleDeleteClick = (clickEvent) => {
         // Stop bubbling to project selection
         clickEvent.stopPropagation();
         
-        // Find the trashcan's project card ID 
+        // Find the trashcan's project card
         const projectCard = clickEvent.target.closest('.project-card');
         if (!projectCard) return; 
         
@@ -155,6 +176,7 @@ const manageDOM = (() => {
                 return; 
             }
             
+            // Create project
             manageProjects.addProject(title);
             console.log("Current projects:", manageProjects.getProjects());
             refreshNavbar();
@@ -201,14 +223,18 @@ const manageDOM = (() => {
             return projectCard;
         }
         
-        // Listen for clicks on navbar tabs. 
+        // Listen for clicks on navbar tabs
         projectsList.addEventListener('click', handleProjectTabClick);
      
-        // Display modal when Add Project tab is clicked.
+        // Display modal when Add Project tab is clicked
         addProjectTab.addEventListener('click', displayProjectModal);
 
         // Add Project when modal has input + Enter/Submit Project
         projectForm.addEventListener('submit', handleProjectSubmit);
+
+        // Display all projects when "All" is clicked
+        document.getElementById('show-all').addEventListener('click', handleShowAllClick);
+
 
 
     // -----------------------------------------------------------------
@@ -216,59 +242,55 @@ const manageDOM = (() => {
     // -----------------------------------------------------------------
 
     function createTaskCardHTML() {
+        // Card
         const taskCard = document.createElement('div');
         taskCard.className = 'task-card';
         
+        // Checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.className = 'mark-complete';
         
+        // Task description
         const textInput = document.createElement('input');
         textInput.type = 'text';
         textInput.className = 'task-input';
-        textInput.placeholder = 'Add task';
+        textInput.placeholder = 'New';
         
+        // Append checkbox and description to card
         taskCard.appendChild(checkbox);
         taskCard.appendChild(textInput);
         
         return taskCard;
     };
 
-    // Add tasks by typing / clicking 'Enter' on input.
     const handleTaskInput = (keyEvent) => {
-        // Only respond to Enter key
+        // Only respond to 'Enter'
         if (keyEvent.key !== 'Enter') return;
         
+        // Identify task
         const input = keyEvent.target;
         const projectTasks = input.closest('.project-tasks');
         const taskCard = input.closest('.task-card');
         
-        // Check if this is the last / empty card 
+        // Make sure the task is empty and it's the last 
         if (!taskCard || taskCard !== projectTasks.lastElementChild) return;
-        
-        // Validate input
         const description = input.value.trim();
         if (!description) return;
-        
-        // Get current project data
+
+        // If it is, identify its project 
         const projectCard = projectTasks.closest('.project-card');
-        const projectId = Number(projectCard.dataset.projectId);
+        const projectId = parseInt(projectCard.dataset.projectId);
         const currentProject = manageProjects.getProjects()
-            .find(proj => proj.id === projectId);
+            .find(project => project.id === projectId);
         
-        // Create and store task
+        // Create task and add it to project
         const newTask = manageTasks.createTask(description);
         currentProject.addTask(newTask);
-        
-        // Update DOM
+
+        // Re-render
         input.value = '';
-        const newTaskCard = createTaskCardHTML();
-        newTaskCard.dataset.taskId = newTask.id;
-        newTaskCard.querySelector('.task-input').value = description;
-        projectTasks.insertBefore(newTaskCard, taskCard);
-        
-        // Focus on new card input
-        input.focus();
+        renderAllTasks(currentProject); 
     };
 
     const renderAllTasks = (project) => {
@@ -289,7 +311,9 @@ const manageDOM = (() => {
             
             const checkbox = taskCard.querySelector('.mark-complete');
             checkbox.checked = !task.isPending;
-            
+            // Listen for completion / deletion
+            checkbox.addEventListener('click', handleCheckboxClick); 
+
             if (!task.isPending) {
                 taskCard.classList.add('completed');
             }
@@ -303,20 +327,55 @@ const manageDOM = (() => {
         emptyCard.querySelector('.task-input').focus();
     };
     
+    const handleCheckboxClick = (event) => {
+        // Identify DOM elements
+        const checkbox = event.target;
+        const taskCard = checkbox.closest('.task-card');
+        if (!taskCard || !taskCard.dataset.taskId) return;
+
+        // Find/validate their corresponding data
+        const taskId = parseInt(taskCard.dataset.taskId);
+        const projectCard = taskCard.closest('.project-card');
+        const projectId = parseInt(projectCard.dataset.projectId);
+
+        const project = manageProjects.getProjects()
+            .find(p => p.id === projectId);
+        if (!project) return;
+    
+        const task = project.tasks.find(t => t.id === taskId);
+        if (!task) return;
+    
+        // If checked, mark as complete
+        const isNowPending = task.toggleComplete();
+        taskCard.classList.toggle('completed', !isNowPending);
+    
+        // And then delete
+        if (!isNowPending) {
+            taskCard._deletionTimer = setTimeout(() => {
+                project.deleteTask(taskId);
+                renderAllTasks(project);
+            }, 1000);
+        } else if (taskCard._deletionTimer) {
+            clearTimeout(taskCard._deletionTimer);
+        }
+    };
+    
+    // Permanent listener for task inputs
     const initializeTaskHandlers = () => {
-        document.addEventListener('keydown', (e) => {
-            if (e.target.classList.contains('task-input')) {
-                handleTaskInput(e);
+        document.addEventListener('keydown', (keyEvent) => {
+            if (keyEvent.target.classList.contains('task-input')) {
+                handleTaskInput(keyEvent);
             }
         });
     };
     
-    // Call this when loading the app
+    // Initialization
     initializeTaskHandlers();
 
     // -----------------------------------------------------------------
     // ----------------------- Expose methods --------------------------
     // -----------------------------------------------------------------
+    
     return { 
         displayProjectModal,
         refreshNavbar,
@@ -331,6 +390,7 @@ const manageDOM = (() => {
         createTaskCardHTML,
         handleTaskInput,
         renderAllTasks,
+        handleCheckboxClick,
         initializeTaskHandlers
     };
 
